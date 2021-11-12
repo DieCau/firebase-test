@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+// import './App.css';
+import { getPersons, savePersonName } from './application/api'
+
 
 function App() {
+
+  const [personName, setPersonName] = useState(null)
+  const [persons, setPersons] = useState(null)
+
+  const savePerson = () => {
+    savePersonName(personName)
+  }
+
+  useEffect(() => {
+    getPersonsData();
+  }, []);
+
+
+  const getPersonsData = async () => {
+    const p = await getPersons()
+    setPersons(p.docs)
+  } 
+
+
+  // *********************************************
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="text" onChange={ e => setPersonName(e.target.value) } /><button onClick={ savePerson } >Guardar</button>
+      <button onClick={ removePerson } >Eliminar</button>
+
+      {
+        persons && persons.map( p => <p>{ p.data().name }</p>)
+      }
+
     </div>
   );
 }
