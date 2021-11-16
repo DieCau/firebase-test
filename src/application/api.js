@@ -1,5 +1,5 @@
-import firebase, { db } from './firebase';
-import {collection, getDocs, getDoc, query, doc,  addDoc, deleteDoc, updateDoc} from "firebase/firestore";
+import { db } from './firebase';
+import {collection, getDocs, query, doc, addDoc, deleteDoc, updateDoc} from "firebase/firestore";
 
 export const savePersonName = (name) => {
     // !Alta de Personas  /  "C"REATE
@@ -13,6 +13,12 @@ export const getPersons = async () => {
 }
 
 export const deletePerson = async (id) => {
-    // !Borrado de Personas  / "D"ELETE 
+    // !Baja de Personas  / "D"ELETE 
     await deleteDoc(doc(db, 'persons', id));
+}
+
+
+export const updatePerson = async (id, name) => {
+    // !Actualización de Personas  / "U"PDATE 
+    await updateDoc(doc(db, 'persons', id), { name });
 }
